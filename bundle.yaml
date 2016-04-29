@@ -1,7 +1,7 @@
 series: trusty
 services:
   kibana:
-    charm: "cs:~containers/trusty/kibana"
+    charm: "cs:~containers/trusty/kibana-2"
     num_units: 1
     expose: true
     annotations:
@@ -14,12 +14,12 @@ services:
       "gui-x": "680"
       "gui-y": "735"
   filebeat:
-    charm: "cs:~containers/trusty/filebeat-4"
+    charm: "cs:trusty/filebeat-0"
     annotations:
       "gui-x": "352"
       "gui-y": "654"
   topbeat:
-    charm: "cs:~containers/trusty/topbeat-7"
+    charm: "cs:trusty/topbeat-0"
     annotations:
       "gui-x": "358.0000305175781"
       "gui-y": "799"
