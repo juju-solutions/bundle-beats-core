@@ -1,0 +1,74 @@
+#!/usr/bin/python3
+
+import amulet
+import unittest
+
+
+class TestCharm(unittest.TestCase):
+
+    @classmethod
+    def setUp(cls):
+
+        if not cls.bundle:
+            # Get the relative bundle path from the environment variable.
+            cls.bundle = os.getenv('BUNDLE', 'bundle.yaml')
+        # Create a path to the bundle based on this file's location.
+        cls.bundle_path = os.path.join(os.path.dirname(__file__),
+                                       '..',
+                                       cls.bundle)
+        # Normalize the path to the bundle.
+        cls.bundle_path = os.path.abspath(cls.bundle_path)
+
+        print('Deploying bundle: {0}'.format(cls.bundle_path))
+
+        cls.deployment = amulet.Deployment()
+        with open(cls.bundle_path, 'r') as bundle_file:
+            contents = yaml.safe_load(bundle_file)
+            cls.deployment.load(contents)
+        try:
+            cls.deployment.setup(tiemout=1200)
+            cls.deployment.sentry.wait()
+
+        # Beats core is an incomplete bundle by design. We want to
+        # encapsulate the infrastructure, and let the beats agents be
+        # the entrypoint into many other bundles.
+
+        cls.d.add('ubuntu', 'cs:trusty/ubuntu')
+        cls.d.relate('topbeat:beats-host', 'ubuntu:juju-info')
+        cls.d.relate('filebeatbeat:beats-host', 'ubuntu:juju-info')
+
+        cls.d.setup(timeout=1200)
+        cls.d.sentry.wait()
+
+        cls.elasticsearch = self.d.sentry['elasticsearch'][0]
+        cls.topbeat = self.d.sentry['topbeat'][0]
+        cls.filebeat = self.d.sentry['filebeat'][0]
+
+
+    def test_elasticsearch_host_in_templating(self):
+        es_address = self.elasticsearch.relation('client', 'topbeat:elasticsearch')['private-address']  # noqa
+        config = self.topbeat.file_contents('/etc/topbeat/topbeat.yml')
+        self.assertTrue(es_address in config)
+
+    def test_config_options(self):
+        self.d.configure('filebeat',
+                        {'logpath': '/var/log/*.log /tmp/amulet.log',
+                         'harvester_buffer_size': '9999',
+                         'max_bytes': '10485761'})
+    self.d.sentry.wait()
+    config = self.filebeat.file_contents('/etc/filebeat/filebeat.yml')
+    self.assertTrue('/tmp/amulet.log' in config)
+    self.assertTrue('9999' in config)
+    self.assertTrue('10485761' in config)
+
+    def test_config_options(self):
+        self.d.configure('topbeat',
+                         {'procs': '^$',
+                          'period': '187'})
+        self.d.sentry.wait()
+        config = self.topbeat.file_contents('/etc/topbeat/topbeat.yml')
+        self.assertTrue('^$' in config)
+        self.assertTrue('187' in config)
+
+if __name__ == "__main__":
+    unittest.main()
