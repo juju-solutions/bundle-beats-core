@@ -14,12 +14,12 @@ services:
       "gui-x": "680"
       "gui-y": "735"
   filebeat:
-    charm: "cs:trusty/filebeat-0"
+    charm: "cs:trusty/filebeat-1"
     annotations:
       "gui-x": "352"
       "gui-y": "654"
   topbeat:
-    charm: "cs:trusty/topbeat-0"
+    charm: "cs:trusty/topbeat-1"
     annotations:
       "gui-x": "358.0000305175781"
       "gui-y": "799"
