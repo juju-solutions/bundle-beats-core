@@ -1,28 +1,28 @@
 series: trusty
 services:
   kibana:
-    charm: "cs:~containers/trusty/kibana-2"
+    charm: "cs:trusty/kibana-12"
     num_units: 1
     expose: true
     annotations:
       "gui-x": "979"
       "gui-y": "731"
   elasticsearch:
-    charm: "cs:trusty/elasticsearch-14"
+    charm: "cs:trusty/elasticsearch-15"
     num_units: 1
     annotations:
       "gui-x": "680"
       "gui-y": "735"
   filebeat:
-    charm: "cs:trusty/filebeat-1"
+    charm: "cs:trusty/filebeat-2"
     annotations:
       "gui-x": "352"
       "gui-y": "654"
   topbeat:
-    charm: "cs:trusty/topbeat-1"
+    charm: "cs:trusty/topbeat-2"
     annotations:
-      "gui-x": "358.0000305175781"
-      "gui-y": "799"
+      "gui-x": "352"
+      "gui-y": "854"
 relations:
   - - "kibana:rest"
     - "elasticsearch:client"
