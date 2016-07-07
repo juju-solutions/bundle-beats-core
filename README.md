@@ -12,8 +12,21 @@ storage and analysis.
 
 ### Topbeat
 
- Topbeat is a lightweight way to gather CPU, memory, and other per-process and
+ A lightweight way to gather CPU, memory, and other per-process and
  system wide data, then ship it to Elasticsearch to analyze the results.
+
+### Packetbeat
+
+An open source project that is designed to provide
+real‑time analytics for web, database, and other network protocols.
+
+### Dockerbeat
+
+A lightweight, open source shipper for docker daemon data. Dockerbeat polls
+the Docker Engine daemon, and sends cpu, network, memory, and host
+information to Logstash for further parsing and enrichment or to Elasticsearch
+for centralized storage and analysis.
+
 
 # Usage
 
@@ -37,7 +50,7 @@ to http://<kibana-public-ip>/dashboards and load up the topbeat dash and you're
 in business!
 
 Note: This demo dashboard also ships with visualizations we are not yet
-populating for Packetbeat and winlogbeat beats. These are TODO:
+populating for winlogbeat beats.
 
 ## Contact information
 

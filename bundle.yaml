@@ -4,15 +4,17 @@ services:
     charm: "cs:trusty/kibana-12"
     num_units: 1
     expose: true
+    options:
+      dashboards: beats
     annotations:
-      "gui-x": "979"
-      "gui-y": "731"
+      "gui-x": "987"
+      "gui-y": "900"
   elasticsearch:
     charm: "cs:trusty/elasticsearch-15"
     num_units: 1
     annotations:
       "gui-x": "680"
-      "gui-y": "735"
+      "gui-y": "900"
   filebeat:
     charm: "cs:trusty/filebeat-2"
     annotations:
@@ -23,10 +25,24 @@ services:
     annotations:
       "gui-x": "352"
       "gui-y": "854"
+  packetbeat:
+    charm: "cs:~containers/trusty/packetbeat-4"
+    annotations:
+      "gui-x": "352"
+      "gui-y": "1054"
+  dockerbeat:
+    charm: "cs:~containers/trusty/dockerbeat-1"
+    annotations:
+      "gui-x": "352"
+      "gui-y": "1254"
 relations:
   - - "kibana:rest"
     - "elasticsearch:client"
   - - "filebeat:elasticsearch"
     - "elasticsearch:client"
   - - "topbeat:elasticsearch"
+    - "elasticsearch:client"
+  - - "dockerbeat:elasticsearch"
+    - "elasticsearch:client"
+  - - "packetbeat:elasticsearch"
     - "elasticsearch:client"
