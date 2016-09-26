@@ -42,11 +42,11 @@ services. Load the example dashboard and you're ready to go!
 With our services on the way, once the model has settled deploy the beats
 dashboard in Kibana.
 
-    juju action do kibana/0 deploy-dashboard dashboard=beats
+    juju action do kibana/0 load-dashboard dashboard=beats
 
 You will notice new indexes in kibana, and some default demonstration dashboards
 have been loaded. This is a full beats suite dashboard. You can now navigate
-to http://<kibana-public-ip>/dashboards and load up the topbeat dash and you're
+to `http://<kibana-public-ip>/dashboards` and load up the topbeat dash and you're
 in business!
 
 Note: This demo dashboard also ships with visualizations we are not yet
