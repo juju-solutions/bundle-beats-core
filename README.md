@@ -30,32 +30,29 @@ for centralized storage and analysis.
 
 # Usage
 
-Deployment is straight forward. Deploy the beats-core bundle to stand up the
-log aggregation and visualization applications, and relate the agents to your
-services. Load the example dashboard and you're ready to go!
+Deployment is straight forward. Deploy the `beats-core` bundle to stand up the
+log aggregation and visualization applications, and add relations to anything
+you want to monitor. The following example monitors a simple `ubuntu`
+application with `filebeat`:
 
-    juju deploy myservice
-    juju deploy ~containers/bundle/beats-core
-    juju add-relation filebeat:beats-host myservice
-    juju add-relation topbeat:beats-host myservice
+    juju deploy ~elasticsearch-charmers/bundle/beats-core
+    juju deploy bionic/ubuntu
+    juju add-relation filebeat:beats-host ubuntu
 
-With our services on the way, once the model has settled deploy the beats
-dashboard in Kibana.
-
-    juju action do kibana/0 load-dashboard dashboard=beats
-
-You will notice new indexes in kibana, and some default demonstration dashboards
-have been loaded. This is a full beats suite dashboard. You can now navigate
-to `http://<kibana-public-ip>/dashboards` and load up the topbeat dash and you're
-in business!
+Beat indexes are automatically created in kibana, and default demonstration
+dashboards have been loaded. Once the model has settled, you can navigate to
+`http://<kibana-public-ip>/`, select the filebeat index as the default, and
+head over to the Discover tab to view logs collected from the `ubuntu`
+application.
 
 Note: This demo dashboard also ships with visualizations we are not yet
 populating for winlogbeat beats.
 
-## Contact information
 
-- Charles Butler &lt;charles.butler@canonical.com&gt;
-- Matt Bruzek &lt;matthew.bruzek@canonical.com&gt;
+# Contact information
+
+- Elasticsearch Charmers &lt;elasticsearch-charmers@lists.launchpad.net&gt;
+
 
 # Need Help?
 
